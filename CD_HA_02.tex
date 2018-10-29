@@ -1,0 +1,33 @@
+\documentclass[a4paper]{article}
+
+\usepackage{myStyle}
+
+\title{CD HA 02}
+
+\begin{document}
+
+\section{Invariante Unterräume}
+Die Matrix
+$$A_1 = \begin{pmatrix}
+\frac{2}{5} & -\frac{6}{5} \\
+-\frac{6}{5} & -\frac{7}{5}
+\end{pmatrix}$$
+hat die Eigenwerte $λ_1 = -2$ und $λ_2 = 1$ und es gilt
+\begin{align*}
+\ker (A - λ_1 I) &= \ker \begin{pmatrix}
+12/5 & -6/5 \\ -6/5 & 3/5
+\end{pmatrix} = \ker \begin{pmatrix}
+1 & -6/12 \\ 1 & -3/6
+\end{pmatrix}\\
+&=\ker\begin{pmatrix}
+1 & -6/12\\
+0 & 0
+\end{pmatrix} = \left\langle \begin{pmatrix}
+1 \\ 12/6
+\end{pmatrix} \right\rangle  
+= \left\langle \begin{pmatrix}
+1 \\ 2
+\end{pmatrix} \right\rangle = \langle v_1 \rangle.
+\end{align*}
+
+\end{document}

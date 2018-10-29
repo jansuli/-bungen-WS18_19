@@ -8,12 +8,12 @@
 Die Differentialgleichung zweiter Ordnung
 \begin{equation}
     \label{eqn:diff1}
-    \dot{\dot x} - μ ( 1 - x^2) \dot x + x = 0, \qquad μ>0,
+    \ddot{x} - μ ( 1 - x^2) \dot x + x = 0, \qquad μ>0,
 \end{equation}
 ist mit $ξ := \dot x$ äquivalent zum System erster Ordnung
 \begin{equation*}
     \left \{ \; \begin{aligned}
-    \dot ξ - μ(1-x^2) \dot x + x &= 0,\\
+    \dot ξ - μ(1-x^2) ξ + x &= 0,\\
     \dot x &= ξ 
     \end{aligned}\right.
 \end{equation*}
@@ -22,7 +22,7 @@ bzw.
     \label{eqn:diff2}
     \left\{ \; \begin{aligned}
     \dot x &= ξ\\
-    \dot ξ &= μ(1-x^2) - x
+    \dot ξ &= μ(1-x^2)ξ - x
     \end{aligned} \right.
 \end{equation}
 Dass kann man der Matlab-Funktion \verb!ode45! übergeben (mit $\mathbf x = (x, ξ) = (x,\dot x)$):
@@ -30,28 +30,74 @@ Dass kann man der Matlab-Funktion \verb!ode45! übergeben (mit $\mathbf x = (x, 
 mu = 1;
 t_range = [0,100];
 x_init = [0.5, 0.5];
-rhs = @(x1, x2) [x2, mu * (1 - x1.^2) - x1];
+rhs = @(x1, x2) [x2; mu * (1 - x1.^2) - x1];
 [t, x] = ode45( @(t,x) rhs(x(1),x(2)), t_range, x_init );
 
 % plotting
 X = x(:,1);
 Y = x(:,2);
-Xsample = X(1:10:end);
-Ysample = Y(1:10:end);
 
-arrows = rhs(Xsample, Ysample);
-
-scatter(X,Y, '.b');
-hold on
-quiver(Xsample, Ysample, arrows(:,1), arrows(:,2), 'r');
+plot3(X,Y,t,'b');
 hold off
 \end{verbatim}
 
+
+\section{}
+\subsection{}
+Es gilt das Matrixexponential $e^{tB}$ für $B=\begin{pmatrix}
+0&1\\-1&0
+\end{pmatrix}$ zu berechnen.
+Man stellt fest, dass
+\begin{align*}
+B^2 &= \begin{pmatrix}
+0&1\\-1&0
+\end{pmatrix} \begin{pmatrix}
+0&1\\-1&0
+\end{pmatrix} = \begin{pmatrix}
+-1&0\\0&-1
+\end{pmatrix} =: -I,\\
+B^3 &= B^2 \cdot B = \begin{pmatrix}
+-1&0\\0&-1
+\end{pmatrix} \begin{pmatrix}
+0&1\\-1&0
+\end{pmatrix} = \begin{pmatrix}0&-1\\1&0\end{pmatrix} = -B,\\
+B^4 &= (B^2)^2 =  \begin{pmatrix}
+-1&0\\0&-1
+\end{pmatrix} \begin{pmatrix}
+-1&0\\0&-1
+\end{pmatrix} = \begin{pmatrix}
+1&0\\0&1\end{pmatrix} = I,\\
+B^5 &= B
+\end{align*}
+Also
+\begin{align*}
+e^{tB} &= \sum_{k=0}^∞ \frac{B^k}{k!}\\
+&= \sum_{k \in 0+4ℕ} \frac{t^kI}{k!} + \sum_{k\in 1+4ℕ} \frac{t^kB}{k!} + \sum_{k\in 2+ 4ℕ} \frac{t^k (-I)}{k!} + \sum_{k\in 3+4ℕ} \frac{t^k-B}{k!}\\&=
+\sum_{k=0}^\infty \frac{t^{4k}I}{(4k)!} + \sum_{k=0}^∞ \frac{t^{4k+1}B}{(4k+1)!} +\sum_{k=0}^∞ \frac{t^{4k+2}(-I)}{(4k+2)!} +\sum_{k=0}^∞\frac{t^{4k+3}(-B)}{(4k+3)!}\\
+&= \sum_{k=0}^∞ \left(\frac{t^{4k}}{(4k)!} - \frac{t^{4k+2}}{(4k+2)!} \right)I +
+\sum_{k=0}^∞ \left(\frac{t^{4k+1}}{(4k+1)!} - \frac{t^{4k+3}}{(4k+3)!} \right)B\\
+&= \sum_{k=0}^∞ \frac{(-1)^k t^{2k}}{(2k)!} I +\sum_{k=0}^∞ \frac{(-1)^kt^{2k+1}}{(2k+1)!} B\\
+&=\cos(t)I + \sin(t) B\\
+&=\begin{pmatrix}
+\cos t & \sin t\\
+-\sin t & \cos t
+\end{pmatrix} 
+\end{align*}
+\subsection{}
+Es gilt
+\begin{align*}
+e^B e^C &= \left( \sum_{k=0}^∞ \frac{B^k}{k!} \right)\left( \sum_{k=0}^∞ \frac{C^k}{k!} \right)\\
+&= \sum_{n=0}^∞ \sum_{k=0}^n \frac{B^k}{k!} \frac{C^{n-k}}{(n-k)!}\\
+&= \sum_{n=0}^∞\frac{1}{n!} \sum_{k=0}^n \frac{n!}{k!(n-k)!} B^kC^{n-k}\\
+&= \sum_{n=0}^∞\frac{1}{n!} \sum_{k=0}^n \binom{n}{k} B^k C^{n-k} 
+\end{align*}
+\emph{Kommutieren} die Matrizen, ist der binomische Lehrsatz anwendbar und es gilt
+$$e^B e^C = \sum_{n=0}^∞ \frac{1}{n!}\sum_{k=0}^n \binom{n}{k} B^k C^{n-k} = \sum_{n=0}^∞ (B+C)^n = e^{B+C}.$$
 % aufgabe 3
 \setcounter{section}{2}
 \section{}
 \subsection{}\label{aufg:3.1}
-Es sei $J$ die Jordan-Normalform von $A$, so dass $A = P^{-1} J P$ für ein $P\in \gl_n(ℝ)$ und
+Es sei $J$ die Jordan-Normalform von $A$, so dass $A = P^{-1} J P$ für ein $P\in \gl_n(ℂ)$ und
 $$J = J_1 + \oplus … \oplus J_k$$
 mit den Jordanblöcken
 $$J_i = \begin{pmatrix}
@@ -64,19 +110,19 @@ zu einem Eigenwert $λ_i = ξ_i +\overbrace{ \sqrt{-1} }^{=:j} y_i$ von $A$ mit 
 Für ein $\symbf x = (x_1, …, x_k)\in ℝ^n$ mit Teilvektoren $x_i$ und einer Gruppierung entsprechend der Größe der Jordanblöcke gilt dann
 \begin{align*}
     \| e^{tA} \symbf x \| &= \| P^{-1} e^{tJ} e^{P} \symbf x \| \\
-     &= \| P^{-1} \left( e^{tJ_1} \oplus … \oplus e^{tJ_k} \right) \tilde \symbf {x} \| \\
-      &= \| P^{-1} \left( e^{tλ_1} e^{N_1} \oplus … e^{tλ_k} e^{N_k0} \right) \tilde{\symbf x} \| \\
-    &= \| P^{-1} \left( e^{tξ_i}e^{jty_1} e^{N_1} \oplus … \oplus e^{tξ_k}e^{jtξ_k}e^{N_k}\right) \tilde \symbf x \|\\
-    &= \left \|P^{-1}
+     &= \| P^{-1} \left( e^{tJ_1} \oplus … \oplus e^{tJ_k} \right) \tilde{\symbf {x}} \| \\
+      &= \| P^{-1} \left( e^{tλ_1} e^{N_1} \oplus … e^{tλ_k} e^{N_k} \right) \tilde{\symbf x} \| \\
+    &= \| P^{-1} \left( e^{tξ_i}e^{jty_1} e^{N_1} \oplus … \oplus e^{tξ_k}e^{jtξ_k}e^{N_k}\right) \tilde{\symbf x} \|\\
+   &= \left \|P^{-1}
     \begin{pmatrix}
-    e^{tξ_i}e^{jty_1} e^{N_1} \tilde x_1\\
+    e^{tξ_1}e^{jty_1} e^{N_1} \tilde x_1\\
     \vdots \\
     e^{tξ_k}e^{jtξ_k}e^{N_k} \tilde x_k
     \end{pmatrix}\right\|
 \end{align*}
-Da $\symbf x\ne 0$ ist $\tilde \symbf x\ne 0$ und es gibt im rechten Vektor mindestens eine Komponente $\ne 0$. Weil $P^{-1}$ unabhängig von $t$ ist, gilt also
-$$\| e^{tA} \symbf x\| \to \infty \text{ für $t\to \pm \infty$}.$$
-(Betrachte z.B. die Maximumsnorm.)
+Da $\symbf x\ne 0$ und $P\in \gl_n(ℂ)$ ist $\tilde{\symbf x}\ne 0$ und es gibt im rechten Vektor mindestens eine Komponente $\ne 0$. Weil $P^{-1}$ unabhängig von $t$ ist, gilt also
+$$\| e^{tA} \symbf x\|_∞ \to \infty \text{ für $t\to \pm \infty$},$$
+da hier $e^{tξ_i}$ explodiert und während $|e^{jty_i}|=1$.
 
 \subsection{}
 Es sei $e^{tA}$ hyperbolisch.

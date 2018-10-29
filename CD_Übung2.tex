@@ -1,0 +1,93 @@
+\documentclass[a4paper]{article}
+\usepackage{myStyle}
+
+\title{CD Übung 2}
+
+\begin{document}
+\section*{Wiederholung}
+\subsection*{Lineare dynamische Systeme}
+Das lineare System erster Ordnung
+\begin{equation}
+\label{eqn:linSys}
+\dot x = Ax \; x(0) = x_0
+\end{equation}
+hat die Lösung $φ^t(x_0) = e^{tA}x_0$. Dabei ist $e^{tA} X(t) X(0)^{-1}$, falls $A$ diagonalisierbar und $x^j(t) = e^{λ_i t}v^j$.
+Das System lässt sich vollständig durch die Eigenwerte von $A$ beschreiben. 
+Es lassen sich drei Unterräume durch die Eigenräume von $A$ beschreiben.
+Diese sind invariant unter Dynamik.
+Invariante Unterräume: 
+\begin{itemize}
+\item stabiler Unterraum $E^s = \langle v^1, …, v^{n_s} \rangle$ mit den verallgemeinerten Eigenvektoren zu $λ_i$ von $A$ mit $\Re λ_i < 0$.
+\item instabiler Unterraum $E^u = \langle u^1, …, u^{n_u}\rangle$ mit den verallgemeinerten Eigenvektoren mit $\Re λ_i > 0$.
+\item Zentrumsraum $E^c = \langle w^1, …, w^{n_c}$ mit den verallgemeinerten Eigenvektoren mit $\Re λ_i = 0$.
+\end{itemize}
+Die Matrix $A$ (sowie der zugehörige Fluss) heißen hyperbolisch, falls $n_c = 0$.
+
+\subsection*{Poincaré-Abbildung}
+Gegeben ist das allgemeine System
+\begin{equation}
+\dot x = f(x)
+\end{equation}
+mit einer periodischen Lösung mit $\overline x(t+T) = \overline(t)$. Dann gibt es die eindeutige Rückkehrzeit $τ\colon U\to ℝ$ mit $τ(p) = T$ und $φ^{τ(x)} \in Σ$, wobei $Σ$ der transversale Schnitt ist und $U$ eine Umgebung von $p$.\\
+Die Poincaré-Abbildung ist $P\colon U \to Σ, P(x) = φ^{τ(x)}(x)$.
+
+\subsection*{Floquet Multiplikatoren}
+Betrachtet man die Variationsgleichung
+\begin{equation}
+\dot ξ(t) = Df(\overline x(t)) ξ
+\end{equation}
+so haben die Lösungen die Form
+$$X(t) = Z(t) e^{tR} \text{ mit } Z(t+T) = Z(t)$$
+und mit $X(0) = Z(0) = I$ folgt
+$$X(T) = Z(T) e^{TR} = e^{TR}.$$
+
+%Aufgabe 2
+\section{}
+\subsection{}
+Es gilt $B=\begin{pmatrix}
+0 & 1 \\ - 1 & 0
+\end{pmatrix}$ mit dem charakteristischen Polynom $χ_B(λ) = λ^2 + 1$ und also Eigenwerten $\pm i$ und Eigenvektoren
+$$
+v_1 = \begin{pmatrix}
+1\\ i
+\end{pmatrix}, v_2 = \begin{pmatrix}
+1 \\ - i
+\end{pmatrix}.
+$$
+Sei $T := (v_1 ~ v_2)$, dann ist
+$$e^{tB} = T \cdot \begin{pmatrix}
+e^{it} & 0\\ 0& e^{-it}
+\end{pmatrix}T^{-1} = \begin{pmatrix} \cos(t) & \sin(t) \\ -\sin(t) & \cos(t) \end{pmatrix}.$$
+Alternativ: vergleiche eigene Abgabe.\\
+Phasendiagram: konzentrische Kreise gegen den Uhrzeigersinn.
+
+\subsection{}
+Wenn $BC = CB$, dann gilt $e^B e^C = e^{B+C}$, denn $e^B e^C = \sum_{n=0}^∞ c_n$ mit 
+$$c_n = \sum_{k=0}^n \frac{B^k}{k!} \frac{C^{n-k}}{(n-k)!} = \frac{1}{n!} \sum_{k=0}^n \binom{n}{k} B^k C^{n-k}$$
+und wenn die Matrizen kommutieren, folgt mit dem binomischen Lehrsatz
+$$c_n = \frac{(B+C)^n}{n!}$$
+und so die Behauptung.
+
+% Aufgabe 3
+\section{}
+\subsection{}
+Angenommen $e^{tA}$ ist nicht hyperbolisch. 
+Dann ist $E^c$ nicht der Nullraum und es gibt einen Eigenvektor $x\in E^c$ zum Eigenwert $λ$ mit $\Re(λ) = 0$. Also
+$$\| e^{tA}x \| = \| e^{tλ} x \| = |e^{tx}| \cdot \|x\|  = \| x\| < \infty $$
+im Widerspruch zur Annahme.
+
+Sei andersherum $e^{tA}$ hyperbolisch, dann gilt $ℝ^n = E^n \oplus E^s, x\in ℝ^n$ und es gibt nur einfache Eigenwerte und $A$ ist diagonalisierbar, also $D = T^{-1} A T$ und $T$ enthält Eigenvektoren von $A$. Mit der Norm
+$$\| x\| = \|T^{-1} x\|_\infty$$ gilt
+\begin{align*}
+\|e^{tA} x \| &= \left\|\sum a_i e^{tA}u^i + \sum b_j e^{tA} v^j \right|\\
+&=\left\| \sum a_i e^{λ_i t} u^i + \sum b_j e^{tλ_j} v^j \right\| \\
+&= \left\| \sum a_i e^{λ_i t} (T^{-1}v_j ) + \sum b_j e^{λ_j t} (T^{-1} v_j) \right\| \\
+&= \left\| \sum a_i e^{λ_it} e_i + \sum b_j e^{tλ_j} e_j \right\|_\infty \to \infty
+\end{align*}
+
+\subsection{}
+Angenommen es gibt ein $x\ne 0$ mit $x(t) = x(t+T)$. Dann ist $x(0) = x(kT)∀k\in ℤ$. Sei $t_k = kT, k\in ℤ$ und
+$$|x(t_k) = |x(kT) = |x(0)| = |x_0| < ∞ ∀k$$ 
+im Widerspruch zu (a).
+
+\end{document}
