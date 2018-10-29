@@ -1,0 +1,45 @@
+\documentclass[a4paper]{article}
+\usepackage{myStyle}
+
+\title{Computational Dynamics - Übung 01}
+
+\begin{document}
+\maketitle
+
+\subsection{}
+Ist $f\equiv a$ konstant, so ist die das AWP
+\begin{equation}
+    \label{eqn:awpA}
+    \dot x = f = a, \quad x(0) = 0
+\end{equation}
+und die exakte Lösung ist
+$$
+x = \int_0^t a ~dτ = ax
+$$
+Als Euler-Iteration ergibt sich
+\begin{equation}
+    \label{eqn:eulerA}
+    x_{k+1} = x_k + h f(t_k, x_k) = x_k + ha
+\end{equation}
+und wegen $x_0=0$ also $x_k = kha$ als Sampling entlang der exakten Ursprungsgeraden.
+
+\subsection{}
+Für die rechte Seite $f(x(t)) = - \frac{1}{x(t)} \sqrt{ 1 - x^2(t)}$ und $t_0=0, x_0=1$ wenden wir das Verfahren der Trennung der Veränderlichen an.
+Also
+\begin{align*}
+    t &= \int_{x_0}^x - \frac{ξ}{\sqrt{1-ξ^2}} ~dξ \\
+    &\stackrel{u(ξ) = \sqrt{1- ξ^2}} = \sqrt{1-ξ^2} |^x_{x_0}
+\end{align*}
+und
+$$x(t) = \sqrt{1-t^2}.$$
+
+Das Euler-Verfahren
+$$x_1 = x_0 + \left( -\frac{1}{x_0}\sqrt{1-x_0^2} \right) = 1\Rightarrow x_k = 1 \; ∀k$$
+liefert nur die triviale Lösung.
+
+\subsection{}
+Es gilt $f'() = μ + 2x$ und $f'(0) = μ, =f'(-μ) = -μ$.
+Im Fall $μ = 0$ können wir mit dem Eigenwert-Kriterium keine Aussage treffen.\\
+Im Fall $μ>0$ ist $f'(0)>0$ und $0$ instabil, aber $f'(-μ)<0$ und $-μ$ stabil.\\
+Im Fall $μ<0$ liegt die umgekehrte Situation vor.
+\end{document}
