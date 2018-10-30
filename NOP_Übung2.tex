@@ -1,0 +1,80 @@
+\documentclass[a4paper]{article}
+\usepackage{myStyle}
+\title{CD HA 01}
+
+\DeclareMathOperator{\wto}{\rightharpoonup}
+\begin{document}
+\section{Schwache Folgenstetigkeit}
+Es seien $U,V$ reelle Banachräume und $F\colon U \to V$ sei stetig und linear.
+$U^*$ bezeichne den Dualraum von $U$, also die Menge der linearen, stetigen Abbildungen $U \to ℝ$. 
+Analog sei $H^*$ der Dualraum von $V$.
+Ferner sei $(u_n)$ schwach konvergent in $U$. Genau dann gilt also
+\begin{equation}
+\label{eqn:def1}
+\lim_{n\to ∞} φ(u_n) = φ(u) \qquad ∀φ\in U^*.
+\end{equation}
+Da $F$ stetig und linear ist, ist für eine beliebiges $ψ\in V^*$ auch $ψ\circ F : U \to ℝ$ stetig und linear, also $ψ\circ F \in U^*$. Nach \eqref{eqn:def1} gilt damit
+\begin{equation}
+\label{eqn:folge1}
+\lim_{n\to ∞} ψ(F(u_n)) = ψ.
+\end{equation}
+Da in \eqref{eqn:folge1} $ψ$ beliebig war folgt tatsächlich $F(u_n) \wto F(u)$.
+
+\section{Strenge Konvexität}
+Es sei $g(u) := \| u\|^2_U$ eine Abbildung vom Hilbertraum $(U,\|•\|_U)$ in die reellen Zahlen. Es seien $x,y \in U, x\ne y$ und $0<λ<1$. Dann gilt
+\begin{align*}
+g(λ x + (1-λ)y) &= \| λx + (1-λ) y\|_U^2 \\
+&= \langle λx + (1-λ) y, λx + (1-λ) y \rangle \\
+&\stackrel{\text{Bilinearität}}= λ\langle x, λx + (1-λ) y \rangle + (1-λ) \langle y , λx + (1-λ) y \rangle \\
+&= λ^2 \langle x, x \rangle + 2λ(1-λ) \langle x, y \rangle + (1-λ)^2 \langle y, y \rangle  .
+\end{align*}
+Die zu beweisende Ungleichung ist also äquivalent zu
+\begin{align*}
+&\phantom{⇔~} λ^2 \langle x, x \rangle + 2λ(1-λ) \langle x, y \rangle + (1-λ)^2 \langle y, y \rangle < λ \langle x, x\rangle + (1-λ)\langle y,y\rangle \\
+&⇔ λ \langle x, x \rangle + 2(1-λ) \langle x, y \rangle + \frac{(1-λ)^2}{λ} \langle y, y\rangle < \langle x, x \rangle + \frac{1-λ}{λ} \langle y,y \rangle \\
+&⇔\frac{λ}{1-λ} \langle x, x \rangle + 2 \langle x, y \rangle + \frac{1-λ}{λ}\langle y,y \rangle < \frac{1}{1-λ}\langle x,x \rangle + \frac{1}{λ} \langle y, y\rangle\\
+&⇔2\langle x,y\rangle < \langle x, x \rangle + \langle y,y\rangle \\
+&⇔0 < \langle x, x-y \rangle + \langle y-x, y \rangle = \langle x-y , x-y \rangle
+\end{align*}
+und das gilt offensichtlich wegen der Definitheit des Skalarprodukts und $x\ne y.$
+
+\subsection*{Zusatz}
+Sei $(Y, \|•\|_Y)$ ein weiterer Hilbertraum und $S\colon U\to V$ ein linearer stetiger Operator sowie $y_d \in Y, κ>0$ gegeben.
+Dann ist $f(u): = \| Su-y_d \|^2_Y + κ \| u \|^2_U$ konvex, denn für $0<λ<1$ gilt
+\begin{align*}
+\|S(λx + (1-λ)y) - y_d \|^2_Y + κ\| λx + (1-λ)y \|^2_U &=
+\| λ Sx + (1-λ) Sy - y_d \|^2_Y + κ\| λx + (1-λ)y \|^2_U\\
+&\hspace{-2em}= \| λ Sx -λ y_d + (1-λ) Sy -(1-λ) y_d \|^2_Y + κ\| λx + (1-λ)y \|^2_U\\
+&= \| λ (Sx - y_d) + (1-λ) (Sy-y_d) \|_Y^2 + κ\| λx + (1-λ)y \|^2_U\\
+&\stackrel{(a)}< λ \left( \| Sx-y_d \|_Y^2 + κ \|x\|_U^2 \right) + (1-λ) \left( \| S_y - y_d\|_Y^2 + κ \| y \|_U^2 \right) \\
+&= λf(x) + (1-λ) f(y)
+\end{align*}
+
+\section{Endlichdimensionaler Banachraum}
+\colorbox{gray!20}{\parbox{\textwidth}{Ein Banachraum $X$ ist genau dann endlichdimensional, wenn die abgeschlossene Einheitskugel in $X$ kompakt ist.}}
+
+\begin{proof}
+Es sei $\mathcal B = \{x\in X: \|x \|_X \le 1 \}$ die Einheitskugel. Ist $X$ endlichdimensional, so ist $\mathcal B$ kompakt nach \emph{Heine-Borel}, da $\mathcal B$ abgeschlossen und beschränkt ist.
+
+\textbf{Bessere Lösung}: \\
+\href{https://de.wikiversity.org/wiki/Kompaktheitssatz_von_Riesz}{Wikiversity - Kompaktheitssatz von Riesz}\\
+Alternativ kann meine Lösung auch abgewandelt werden zu:
+\href{https://www.uni-due.de/~adf040p/skripte/FunktAnSkript15.pdf}{Lemma 3.9}\\
+Sei andererseits $\mathcal B$ kompakt. Für einen Widerspruch nehmen wir an, $X$ wäre undendlich-dimensional.
+Per Definition hat jede offene Überdeckung von $\mathcal B$ eine endliche Teilüberdeckung, die $\mathcal B$ enthält. 
+Für eine solche endliche Teilüberdeckung gibt es dann einen endlich-dimensionalen, heißt \emph{echten}, Unterraum $U\le V$, der $\mathcal B$ enthält. Da $U$ endlich-dimensional ist, ist $U$ abgeschlossen und das Lemma kann angewendet werden.
+Man findet also für jedes $0<δ<1$ ein $x\in \mathcal B$, so dass $d(x,U) \ge 1-δ>0$ im Widerspruch zu $\mathcal B\subseteq U$.
+\end{proof}
+
+\section{Konvexität und schwache Folgenabgeschlossenheit}
+Es sei $M\subset X$ konvex und abgeschlossen. 
+Ferner sei $(x_n)\subseteq M\subset K$ eine Folge und $x_n\wto x^*$, also
+\begin{equation}\label{eqn:def4}\lim_{n\to ∞} \langle x_n, w \rangle = \langle x^* , w \rangle\qquad ∀w\in X'.\end{equation}
+Angenommen, $x^*\notin M$. 
+Dann gibt es nach Trennungssatz ein $w'\in X'$ und ein $α\in ℝ$, so dass
+$$\Re \langle x_n, w' \rangle \le α \; ∀ n \text{ und }\Re \langle x^*, w' \rangle > α.$$  
+Dann erhält man mit \eqref{eqn:def4} einen Widerspruch:
+$$α \ge \lim_{n\to ∞} \Re \langle x_n, w'\rangle = \Re \langle x^*, w' \rangle > α.$$
+
+Also muss $x^*\in M$ sein.
+\end{document}
