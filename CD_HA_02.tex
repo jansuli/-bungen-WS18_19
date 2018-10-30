@@ -1,7 +1,7 @@
 \documentclass[a4paper]{article}
 
 \usepackage{myStyle}
-
+\usepackage{commands}
 \title{CD HA 02}
 
 \begin{document}
@@ -36,6 +36,35 @@ E^u = \ker (A -λ_2 I) = \langle v_2 \rangle = \left\langle \begin{pmatrix}
 \end{pmatrix}\right\rangle.
 \end{align*}
 
+Die Matrix $A_2$ hat den zweifachen Eigenwert $-1$ mit dem zugehörigen stabilen Eigenraum 
+$$
+E^s = \left \langle \begin{pmatrix}
+1\\ 2
+\end{pmatrix}
+\right\rangle$$
+der Dimension 1.
+
+Die Matrix $A_3$ hat die Eigenwerte 
+\begin{align*}
+    λ_1 &= 1 + 2i\\
+    λ_2 &= 1 - 2i\\
+    λ_3 &= -3
+\end{align*}
+mit den Eigenvektoren
+$$
+(v_1, v_2, v_3) =\begin{pmatrix}
+-i & i & 0\\
+1 & 1 & 0\\
+0 & 0 & 1
+\end{pmatrix}
+$$
+mit den Eigenräumen
+\begin{align*}
+E^s &= \langle v_3 \rangle &\text{(z-Achse stabil)}\\
+E^u &= \langle v_1, v_2 \rangle
+\end{align*}
+
+\includegraphics[height=5cm,width=0.9\textwidth]{imgs/cd_02_01.png}
 
 % Aufgabe 2
 \section{Eigenwerte Poincaré-Differential}
@@ -58,4 +87,24 @@ $$DP_2(p_2) \cdot Dh(p_1) = Dh(p_1) \cdot DP_1(p_1).$$
 Da $h$ diffeomorph ist, können wir invertieren und mit $T = Dh(p_1)$ gilt:
 $$DP_2(p_2) = T DP_1 (p_1) T^{-1},$$
 also sind die Jacobi-Matrizen ähnlich und die Eigenwerte gleich, also unabhängig von der Wahl der Punkte auf dem Orbit und der transversalen Schnitte.
+
+\section{Trivialer Floquet-Multiplikator}
+Es sei $p=\overline x(0)$ für eine periodische Lösung. Wir wissen aus der Bemerkung nach der Definition der Floquet-Multiplikatoren, dass
+$$Dφ^T(p) = e^{TR}$$
+und somit sind die reicht es, zu zeigen, dass 1 ein Eigenwert von $DΦ^T(p)$ ist.
+
+Dazu nutzt man die Flusseigenschaften und die Periodizität:
+\begin{equation}
+    \label{eqn:cd02_03}
+    φ^t(p) = φ^T(φ^t(p)) = φ^t (φ^T(p)).
+\end{equation}
+Dann gilt
+\begin{align*}
+    f(p) &= f(\overline x(0)) = \dot x(t)|_{t=0} \\ 
+    &=  \dt φ^t(p)|_{t=0} \\
+    &\stackrel{\eqref{eqn:cd02_03}}= \dt\left( φ^T\circ φ^t (p)\right)|_{t=0}\\
+    &=Dφ^T(p) \dot φ^0(p) \\
+    &= Dφ^T(p) f(p)
+    \end{align*}
+und $f(p)$ ist Eigenvektor zum EW 1.
 \end{document}
